@@ -29,7 +29,7 @@ echo $backend_service
 Deploy the backend-proxy using Cloud Run.
 Added environment variable to set the Dart Framework Service endpoint.
 ```bash
-gcloud beta run deploy backend-proxy --image gcr.io/qwiklabs-gcp-00-c7b5e4b1ccdc/backend-proxy --platform managed --region us-central1 --allow-unauthenticated --set-env-vars "ENDPOINT=$backend_service"
+gcloud beta run deploy backend-proxy --image gcr.io/$GOOGLE_CLOUD_PROJECT/backend-proxy --platform managed --region us-central1 --allow-unauthenticated --set-env-vars "ENDPOINT=$backend_service"
 ```
 
 Get the REMOTE SERVICE ENDPOINT
