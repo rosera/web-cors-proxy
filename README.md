@@ -2,11 +2,11 @@
 
 ## Overview
 
-A quick hack to resolve the header issue with Dart Functions Framework
+A quick hack to resolve the header issue with Dart Functions Framework.
 General idea, add a proxy to capture the response from the backend Dart service, add a header and then forward the response.
 The proxy is built using NodeJS using the `cors` library. 
 The application will fetch against an ENDPOINT and add a header using the cors library.
-Doing the above should enable any application outside of the domain to access information. 
+Doing the above should enable any application outside of the `ORIGIN` to access information. 
 
 
 ## Build Process
