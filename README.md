@@ -12,37 +12,38 @@ Doing the above should enable any application outside of the domain to access in
 ## Build Process
 
 Build the image and post the entry to container registry
-```
+```bash
 gcloud builds submit --config cloudbuild.yaml
 ```
 
 Get the backend service endpoint - update the index.js file to include the value.
-```
+```bash
 backend_service=$(gcloud run services list --platform managed --format='value(URL)' --filter='backend-service')
 ```
 
 Confirm the backend_service environment variable has been populated
-```
+```bash
 echo $backend_service
 ```
 
-Deploy the backend-proxy using Cloud Run
-```
+Deploy the backend-proxy using Cloud Run.
+Added environment variable to set the Dart Framework Service endpoint.
+```bash
 gcloud beta run deploy backend-proxy --image gcr.io/qwiklabs-gcp-00-c7b5e4b1ccdc/backend-proxy --platform managed --region us-central1 --allow-unauthenticated --set-env-vars "ENDPOINT=$backend_service"
 ```
 
 Get the REMOTE SERVICE ENDPOINT
-```
+```bash
 backend_proxy=$(gcloud run services list --platform managed --format='value(URL)' --filter='backend-proxy')
 ```
 
 Test the SERVICE ENDPOINT
-```
+```bash
 curl -X POST -H "content-type: application/json" -d '{ "name": "World" }' -i -w "\n" $backend_service
 ```
 
 Reponse Output
-```
+```yaml
 HTTP/2 200
 x-frame-options: SAMEORIGIN
 content-type: application/json
@@ -60,12 +61,12 @@ __NOTE:__ The x-frame-options is set to SAMEORIGIN.
 
 
 Test the PROXY ENDPOINT
-```
+```bash
 curl -X POST -H "content-type: application/json" -d '{ "name": "World" }' -i -w "\n" $backend_proxy
 ```
 
 Response Output
-```
+```yaml
 HTTP/2 200
 x-powered-by: Express
 access-control-allow-origin: *
@@ -86,12 +87,22 @@ If you deploy this hack locally, the app will use localhost where the ENDPOINT v
 
 
 ## Test the ENDPOINT
+
+Local testing optional setup. 
+If a backend service is not provided as an environment variable, the setup defaults to localhost.
+
+Install the necessary packages
+```bash
+npm i
 ```
+
+Run the application - default port TCP:8080
+```bash
 npm start
 ```
 
 Test the response - uses a stub to just return some info
 
-```
+```bash
 curl -X POST -H "content-type: application/json" -d '{ "name": "World" }' -i -w "\n" localhost:8080
 ```
