@@ -2,12 +2,16 @@
 
 ## Overview
 
-A quick hack to resolve the header issue with Dart Functions Framework.
-General idea, add a proxy to capture the response from the backend Dart service, add a header and then forward the response.
+A quick hack to resolve a `cors` header issue faced with an early version of the `Dart Functions Framework`.
+The general idea is that this app creates a proxy to capture the response from the backend service.
+Any response will then be given an updated header to enable any origin to consume the data published.
+
 The proxy is built using NodeJS using the `cors` library. 
-The application will fetch against an ENDPOINT and add a header using the cors library.
+The application will fetch against an ENDPOINT and add a header using the `cors` library.
 Doing the above should enable any application outside of the `ORIGIN` to access information. 
 
+The example uses `Cloud Run`, Google Clouds Serverless platform.
+However the application can be run on any platform supporting `NodeJS`.
 
 ## Build Process
 
