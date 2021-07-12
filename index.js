@@ -5,6 +5,28 @@ const PORT = process.env.PORT || 8080;
 const BACKEND_ENDPOINT = process.env.ENDPOINT || 'local';
 const app = express();
 
+// Replicate Dart Function if run locally
+const salutations = [
+  '안녕하세요', // annyeonghaseyo
+  'こんにちは', // Kon'nichiwa
+  '你好', // Nǐ hǎo
+  'Привет', // Privet
+  'สวัสดี', // S̄wạs̄dī
+  'Aloha',
+  'Bonjour',
+  'Hello',
+  'Ciao',
+  'Dzień dobry',
+  'Hola',
+  'Hallo',
+  'Kon’nichiwa',
+  'Namaste',
+  'Salam',
+  'Shalom',
+  'Tena koutou',
+];
+
+
 app.use(cors())
 app.use(express.json());
 
@@ -12,6 +34,8 @@ app.listen(PORT, () => {
   console.log(`Dart Functions Framework Proxy listening on port ${PORT}`);
 });
 
+// Return a random number based on length of Salutation array
+function randomSalutation() { return (salutations[Math.floor(Math.random() * salutations.length)]); }
 
 async function postData(url, data) {
   // Default options are marked with *
@@ -35,8 +59,8 @@ async function postData(url, data) {
 app.post('/', async (req, res) => {
   try {
     if (BACKEND_ENDPOINT.trim() === 'local') {
-      //LOCALHOST: STUB entry	 
-      res.status(200).json({"salutation":"Hello","name":"World"});
+      //LOCALHOST: STUB entry	will default if endpoint not specified 
+      res.status(200).json({"salutation":randomSalutation(),"name":"World"});
     } else {
 
       // CLOUD RUN BACKEND	  
