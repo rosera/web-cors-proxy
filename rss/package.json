@@ -1,7 +1,7 @@
 {
-  "name": "dart-cors-proxy",
+  "name": "rss-cors-proxy",
   "version": "1.0.0",
-  "description": "Dart CORS proxy",
+  "description": "RSS CORS proxy",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
