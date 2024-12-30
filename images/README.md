@@ -20,19 +20,46 @@ Build the image and post the entry to container registry
 gcloud builds submit --config cloudbuild.yaml
 ```
 
-Get the backend service endpoint - update the index.js file to include the value.
+Add a reference to an image file available over HTTP/HTTPS.
 ```bash
-backend_service=$(gcloud run services list --platform managed --format='value(URL)' --filter='backend-service')
+DEFAULT_IMAGE="HTTPS://PATH_TO_IMAGE_FILE"
 ```
 
-Confirm the backend_service environment variable has been populated
+Confirm the DEFAULT_IMAGE environment variable has been populated
 ```bash
-echo $backend_service
+echo $DEFAULT_IMAGE
 ```
 
-Deploy the rss-web-proxy using Cloud Run.
-Added environment variable to set the Dart Framework Service endpoint.
+Deploy the image-web-proxy using Cloud Run.
+Added environment variable to override the default image.
 ```bash
-gcloud beta run deploy image-web-proxy --image gcr.io/$GOOGLE_CLOUD_PROJECT/image-web-proxy --platform managed --region us-central1 --allow-unauthenticated --set-env-vars "ENDPOINT=$backend_service"
+gcloud beta run deploy image-web-proxy --image gcr.io/$GOOGLE_CLOUD_PROJECT/image-web-proxy --platform managed --region us-central1 --allow-unauthenticated --set-env-vars "DEFAULT_IMAGE=$IMAGE_LOGO"
 ```
+
+## Test
+
+Test against a CORS impacted image.
+A custom image for the value provided should be rendered in the browser.
+
+### Test default image
+
+Open a browser and add the endpoint
+
+```
+https://[ENDPOINT]
+```
+
+### Test custom image
+
+Open a browser and add the endpoint
+```
+https://[ENDPOINT]?imageUrl=[CUSTOM_IMAGE_URL]
+```
+
+
+
+
+
+
+
 

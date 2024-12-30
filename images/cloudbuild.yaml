@@ -22,6 +22,6 @@ options:
 
 substitutions:
   _REPO_NAME: gcr.io             # ARTIFACT REGISTRY REPO
-  _IMAGE_NAME: image-proxy     # IMAGE NAME
-  _IMAGE_VERSION: 0.0.1          # IMAGE_LABEL
+  _IMAGE_NAME: image-proxy       # IMAGE NAME
+  _IMAGE_VERSION: 0.0.2          # IMAGE_LABEL
   _REVISION_VERSION: latest      # IMAGE_LABEL
