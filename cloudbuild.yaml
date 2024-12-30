@@ -1,26 +1,27 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: 'build_container'
-  args: ['build', '-t', '${_REPO_NAME}/$PROJECT_ID/${_TAG_NAME}/${_IMAGE_NAME}:${_IMAGE_VERSION}',
-         '-t', '${_REPO_NAME}/$PROJECT_ID/${_TAG_NAME}/${_IMAGE_NAME}',
+  args: ['build', 
+         '-t', '${_REPO_NAME}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_VERSION}',
+         '-t', '${_REPO_NAME}/$PROJECT_ID/${_IMAGE_NAME}', 
          '.',
          '--build-arg',
-         'VERSION=${_IMAGE_VERSION}'
-         ]
-
-# - name: 'gcr.io/cloud-builders/docker'
-#  args: ['push', '${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_IMAGE_NAME}']
+         'VERSION=${_IMAGE_VERSION}']
 
 images:
-  - '${_REPO_NAME}/$PROJECT_ID/${_TAG_NAME}/${_IMAGE_NAME}:${_REVISION_NAME}'
-  - '${_REPO_NAME}/$PROJECT_ID/${_TAG_NAME}/${_IMAGE_NAME}:${_IMAGE_VERSION}'
-
-substitutions:
-  _REPO_NAME: gcr.io           # ARTIFACT REGISTRY REPO
-  _TAG_NAME: proxy             # REPO NAME
-  _IMAGE_NAME: backend-proxy   # REPO NAME
-  _IMAGE_VERSION: 0.0.1        # IMAGE_VERSION
+  - '${_REPO_NAME}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_VERSION}'
+  - '${_REPO_NAME}/$PROJECT_ID/${_IMAGE_NAME}:${_REVISION_VERSION}'
 
 options:
-  substitution_option: 'ALLOW_LOOSE'
-  logging: CLOUD_LOGGING_ONLY
+#  PRODUCTION SETTINGS 
+#  substitution_option: 'MUST_BE_SET'  # EXPLICIT SUBS
+#  logging: RUN                        # WRITE TO OUTPUT + CLOUD LOGGING
+#  DEVELOPMENT SETTINGS
+  substitution_option: 'ALLOW_LOOSE'  # IMPLICIT SUBS
+  logging: CLOUD_LOGGING_ONLY         # WRITE TO CLOUD LOGGING
+
+substitutions:
+  _REPO_NAME: gcr.io             # ARTIFACT REGISTRY REPO
+  _IMAGE_NAME: backend-proxy     # IMAGE NAME
+  _IMAGE_VERSION: 0.0.1          # IMAGE_LABEL
+  _REVISION_VERSION: latest      # IMAGE_LABEL
